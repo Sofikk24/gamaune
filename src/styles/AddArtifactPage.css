@@ -1,0 +1,114 @@
+.add-form-container {
+    max-width: 600px;
+    margin: 2.5rem auto;
+    padding: 2.5rem 2rem 2.3rem 2rem;
+    background: var(--beige);
+    border-radius: 26px;
+    box-shadow: 0 6px 32px rgba(76, 6, 1, 0.09);
+}
+
+.add-form-title {
+    color: var(--burgundy);
+    font-size: 2.1rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 2.1rem;
+}
+
+.add-form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    margin-bottom: 1.4rem;
+}
+
+.add-form-row label {
+    font-weight: 600;
+    color: var(--burgundy);
+    margin-bottom: .15em;
+    margin-left: .1em;
+    font-size: 1.07rem;
+}
+
+.add-form-row input,
+.add-form-row select,
+.add-form-row textarea {
+    width: 100%;
+    font-size: 1.08rem;
+    padding: .66em 1em;
+    border-radius: 11px;
+    border: 1.3px solid var(--white);
+    background: #fff8ef;
+    box-sizing: border-box;
+    transition: border .15s;
+    margin-bottom: 0.1em;
+}
+
+.add-form-row input:focus,
+.add-form-row select:focus,
+.add-form-row textarea:focus {
+    border: 1.3px solid var(--gold);
+    outline: none;
+}
+
+.add-form-row textarea {
+    resize: vertical;
+    min-height: 70px;
+    max-height: 200px;
+}
+
+.add-form-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: .6em;
+    margin-bottom: 1em;
+    font-size: .98rem;
+}
+
+.add-form-btn {
+    background: var(--gold);
+    color: var(--white);
+    border: none;
+    padding: .95em 2.7em;
+    border-radius: 10px;
+    font-size: 1.15em;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: .7em;
+    box-shadow: 0 2px 12px rgba(140,105,0,0.08);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.add-form-btn:disabled {
+    opacity: .7;
+    cursor: not-allowed;
+}
+
+.add-form-success {
+    color: var(--green);
+    background: #effdf2;
+    border-radius: 12px;
+    padding: 1em 1.5em;
+    margin-top: 1.2em;
+    font-weight: 600;
+    font-size: 1.13em;
+    text-align: center;
+}
+
+.file-input-label {
+    font-weight: 600;
+    margin-bottom: .3em;
+    color: var(--burgundy);
+    display: block;
+}
+
+/* Сообщения об ошибках */
+.add-form-row .error {
+    color: #bb2222;
+    font-size: .97em;
+    margin-top: -.3em;
+    margin-bottom: .3em;
+    margin-left: .2em;
+}
