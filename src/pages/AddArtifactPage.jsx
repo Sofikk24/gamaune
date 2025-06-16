@@ -1,12 +1,14 @@
 import '/src/styles/AddArtifactPage.css';
-import { useState, useRef } from "react";
+import {useState, useRef, useEffect} from "react";
 import axios from "axios";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
-const API_URL = "http://localhost:5000"; // замени на свой
+const API_URL = import.meta.env.VITE_API_URL;
 
 const techniqueOptions = [
     "Вышивка", "Резьба по дереву", "Керамика", "Ткачество", "Кузнечное дело"
 ];
+const HCAPTCHA_SITE_KEY = "10000000-ffff-ffff-ffff-000000000001";
 
 export default function AddArtifactPage() {
     const [form, setForm] = useState({
@@ -15,8 +17,8 @@ export default function AddArtifactPage() {
         email: "",
         object_name: "",
         materials: "",
-        technique: "",
-        creation_date: "",
+        period_id: "",
+        category_id: "",
         story: "",
         author_known: false,
         author_full_name: "",
@@ -29,6 +31,15 @@ export default function AddArtifactPage() {
     const [sent, setSent] = useState(false);
     const [loading, setLoading] = useState(false);
     const fileInput = useRef(null);
+    const [captchaValue, setCaptchaValue] = useState("");
+    const [periods, setPeriods] = useState([]);
+    const [categories, setCategories] = useState([]);
+
+
+    function onCaptchaChange(token) {
+        setCaptchaValue(token);
+        setErrors(prev => ({ ...prev, captcha: undefined }));
+    }
 
     function validate() {
         let errs = {};
@@ -37,13 +48,19 @@ export default function AddArtifactPage() {
         if (!/^[\w\.-]+@[\w\.-]+\.\w{2,}$/.test(form.email)) errs.email = "Введите корректный email";
         if (!form.object_name) errs.object_name = "Введите название";
         if (!form.materials) errs.materials = "Введите материалы";
-        if (!form.technique) errs.technique = "Выберите или введите технику";
+        if (!form.period_id) errs.period_id = "Выберите период";
+        if (!form.category_id) errs.category_id = "Выберите категорию";
         if (files.length === 0) errs.files = "Загрузите хотя бы одно фото (jpg, png, pdf)";
         if (!form.story) errs.story = "Опишите историю предмета";
         if (!form.agree) errs.agree = "Необходимо согласие";
-        if (!form.captcha) errs.captcha = "Введите результат";
+        if (!captchaValue) errs.captcha = "Подтвердите, что вы не робот";
         return errs;
     }
+
+    useEffect(() => {
+        axios.get(`${API_URL}/periods`).then(res => setPeriods(res.data));
+        axios.get(`${API_URL}/categories`).then(res => setCategories(res.data));
+    }, []);
 
     function handleChange(e) {
         const { name, value, type, checked } = e.target;
@@ -72,7 +89,8 @@ export default function AddArtifactPage() {
                 name: form.object_name,
                 materials: form.materials,
                 technique: form.technique,
-                creation_date: form.creation_date,
+                period_id: form.period_id,
+                category_id: form.category_id,
                 story: form.story,
                 applicant: {
                     full_name: form.full_name,
@@ -109,7 +127,7 @@ export default function AddArtifactPage() {
         return (
             <div className="add-form-container">
                 <div className="add-form-success">
-                    Спасибо! Ваша заявка отправлена. После проверки модератор свяжется с вами.
+                    Спасибо! Ваша заявка отправлена. После проверки она будет опубликована.
                 </div>
             </div>
         );
@@ -130,7 +148,7 @@ export default function AddArtifactPage() {
                         onChange={handleChange}
                         disabled={loading}
                     />
-                    {errors.full_name && <div style={{color:'red'}}>{errors.full_name}</div>}
+                    {errors.full_name && <div style={{color: 'red'}}>{errors.full_name}</div>}
                 </div>
                 <div className="add-form-row">
                     <label>Телефон *</label>
@@ -141,7 +159,7 @@ export default function AddArtifactPage() {
                         placeholder="+79991234567"
                         disabled={loading}
                     />
-                    {errors.phone && <div style={{color:'red'}}>{errors.phone}</div>}
+                    {errors.phone && <div style={{color: 'red'}}>{errors.phone}</div>}
                 </div>
                 <div className="add-form-row">
                     <label>Email *</label>
@@ -152,7 +170,7 @@ export default function AddArtifactPage() {
                         onChange={handleChange}
                         disabled={loading}
                     />
-                    {errors.email && <div style={{color:'red'}}>{errors.email}</div>}
+                    {errors.email && <div style={{color: 'red'}}>{errors.email}</div>}
                 </div>
                 <div className="add-form-row">
                     <label>Название предмета *</label>
@@ -162,7 +180,7 @@ export default function AddArtifactPage() {
                         onChange={handleChange}
                         disabled={loading}
                     />
-                    {errors.object_name && <div style={{color:'red'}}>{errors.object_name}</div>}
+                    {errors.object_name && <div style={{color: 'red'}}>{errors.object_name}</div>}
                 </div>
                 <div className="add-form-row">
                     <label>Материалы *</label>
@@ -172,42 +190,37 @@ export default function AddArtifactPage() {
                         onChange={handleChange}
                         disabled={loading}
                     />
-                    {errors.materials && <div style={{color:'red'}}>{errors.materials}</div>}
+                    {errors.materials && <div style={{color: 'red'}}>{errors.materials}</div>}
                 </div>
                 <div className="add-form-row">
-                    <label>Техника *</label>
+                    <label>Категория *</label>
                     <select
-                        name="technique"
-                        value={form.technique}
+                        name="category_id"
+                        value={form.category_id || ""}
                         onChange={handleChange}
                         disabled={loading}
                     >
-                        <option value="">— Выберите —</option>
-                        {techniqueOptions.map(opt => (
-                            <option key={opt} value={opt}>{opt}</option>
+                        <option value="">— Выберите категорию —</option>
+                        {categories.map(cat => (
+                            <option key={cat.id} value={cat.id}>{cat.name}</option>
                         ))}
-                        <option value="Другое">Другое</option>
                     </select>
-                    {form.technique === "Другое" && (
-                        <input
-                            name="technique"
-                            placeholder="Введите технику"
-                            onChange={handleChange}
-                            disabled={loading}
-                            style={{marginTop:".4em"}}
-                        />
-                    )}
-                    {errors.technique && <div style={{color:'red'}}>{errors.technique}</div>}
+                    {errors.category_id && <div style={{color: 'red'}}>{errors.category_id}</div>}
                 </div>
                 <div className="add-form-row">
-                    <label>Год/век создания</label>
-                    <input
-                        name="creation_date"
-                        value={form.creation_date}
+                    <label>Период *</label>
+                    <select
+                        name="period_id"
+                        value={form.period_id || ""}
                         onChange={handleChange}
                         disabled={loading}
-                        placeholder="Например, 1956 или XIX век"
-                    />
+                    >
+                        <option value="">— Выберите период —</option>
+                        {periods.map(period => (
+                            <option key={period.id} value={period.id}>{period.name}</option>
+                        ))}
+                    </select>
+                    {errors.period_id && <div style={{color: 'red'}}>{errors.period_id}</div>}
                 </div>
                 <div className="add-form-row">
                     <label>История предмета *</label>
@@ -218,7 +231,7 @@ export default function AddArtifactPage() {
                         disabled={loading}
                         maxLength={900}
                     />
-                    {errors.story && <div style={{color:'red'}}>{errors.story}</div>}
+                    {errors.story && <div style={{color: 'red'}}>{errors.story}</div>}
                 </div>
                 <div className="add-form-row">
                     <label className="file-input-label">
@@ -232,7 +245,7 @@ export default function AddArtifactPage() {
                         ref={fileInput}
                         disabled={loading}
                     />
-                    {errors.files && <div style={{color:'red'}}>{errors.files}</div>}
+                    {errors.files && <div style={{color: 'red'}}>{errors.files}</div>}
                 </div>
                 <div className="add-form-row">
                     <label>
@@ -282,24 +295,21 @@ export default function AddArtifactPage() {
                         <a href="/privacy" target="_blank" rel="noopener noreferrer">правила</a> )
           </span>
                 </div>
-                {errors.agree && <div style={{color:'red'}}>{errors.agree}</div>}
+                {errors.agree && <div style={{color: 'red'}}>{errors.agree}</div>}
 
                 <div className="add-form-row">
-                    <label>Капча: {captchaQuest} *</label>
-                    <input
-                        name="captcha"
-                        value={form.captcha}
-                        onChange={handleChange}
-                        disabled={loading}
-                        placeholder="Введите ответ"
+                    <HCaptcha
+                        sitekey={HCAPTCHA_SITE_KEY}
+                        onVerify={onCaptchaChange}
+                        theme="light"
                     />
-                    {errors.captcha && <div style={{color:'red'}}>{errors.captcha}</div>}
+                    {errors.captcha && <div style={{color: 'red'}}>{errors.captcha}</div>}
                 </div>
 
                 <button className="add-form-btn" type="submit" disabled={loading}>
                     Отправить
                 </button>
-                {errors.api && <div style={{color:'red',marginTop:12}}>{errors.api}</div>}
+                {errors.api && <div style={{color: 'red', marginTop: 12}}>{errors.api}</div>}
             </form>
         </div>
     );

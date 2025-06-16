@@ -1,0 +1,94 @@
+.auth-root {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--peach-bg);
+}
+
+.auth-form {
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    background: var(--beige);
+    border-radius: 24px;
+    box-shadow: 0 6px 32px rgba(208,166,131,0.16);
+    padding: 2.5em 2.2em 2.7em 2.2em;
+    color: var(--burgundy);
+    font-family: "Modernist One", Impact, Arial, sans-serif;
+}
+
+.auth-title {
+    text-align: center;
+    color: var(--burgundy);
+    font-size: 2.1em;
+    font-family: "Impact, Regular", "Modernist One", Arial, sans-serif;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: .01em;
+}
+
+.auth-field {
+    margin-bottom: 1.3em;
+}
+.auth-field label {
+    font-size: 1em;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.22em;
+    font-weight: 600;
+}
+.auth-field input {
+    width: 100%;
+    padding: 0.72em 1em;
+    border: 1.2px solid var(--gold-block);
+    border-radius: 9px;
+    font-size: 1.07em;
+    color: var(--burgundy);
+    font-family: inherit;
+    background: var(--white);
+    outline: none;
+    margin-bottom: 0.05em;
+    box-shadow: 0 2px 9px rgba(140,105,0,0.06);
+    transition: border-color .18s;
+}
+.auth-field input:focus {
+    border-color: var(--gold);
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 0.9em 0;
+    font-size: 1.14em;
+    font-weight: 700;
+    background: var(--burgundy);
+    color: var(--gold-block);
+    border: none;
+    border-radius: 12px;
+    margin-top: 1.1em;
+    box-shadow: 0 2px 14px rgba(140,105,0,0.11);
+    cursor: pointer;
+    transition: background .16s;
+}
+.auth-btn:hover, .auth-btn:focus {
+    background: var(--gold-block);
+    color: var(--burgundy);
+}
+
+.auth-error {
+    color: #d40c3f;
+    margin-top: 1.3em;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1em;
+    background: rgba(255, 228, 228, 0.8);
+    border-radius: 9px;
+    padding: 0.65em 0.8em;
+    border: 1px solid #ffb2b2;
+}
+
+/* Моб.адаптация */
+@media (max-width: 540px) {
+    .auth-form { padding: 1.5em 0.8em 2em 0.8em; }
+    .auth-title { font-size: 1.35em; }
+}

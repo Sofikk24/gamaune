@@ -38,7 +38,7 @@
     padding: .66em 1em;
     border-radius: 11px;
     border: 1.3px solid var(--white);
-    background: #fff8ef;
+    background: var(--burgundy);;
     box-sizing: border-box;
     transition: border .15s;
     margin-bottom: 0.1em;

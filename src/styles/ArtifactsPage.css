@@ -1,6 +1,8 @@
 .catalog-container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
     max-width: 1100px;
-    margin-bottom: 40%;
     padding: 2.5rem 1rem 2.5rem 1rem;
 }
 
@@ -83,4 +85,9 @@
     margin: .8rem 0 0 0;
     font-size: 1.04rem;
     color: var(--green);
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* количество строк */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
+

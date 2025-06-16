@@ -2,7 +2,7 @@
   "name": "gamaun-web",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://Sofikk24.github.io/gamaune/",
+  "homepage": "https://sofikk24.github.io/gamaune/",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,6 +13,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@hcaptcha/react-hcaptcha": "^1.12.0",
     "axios": "^1.9.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

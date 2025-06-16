@@ -2,7 +2,7 @@ import '/src/styles/AuthorsPage.css';
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:5000"; // Замени на свой
+const API_URL = import.meta.env.VITE_API_URL;
 
 function AuthorsPage() {
     const [authors, setAuthors] = useState([]);
@@ -19,7 +19,7 @@ function AuthorsPage() {
 
     return (
         <div className="authors-container">
-            <h1 className="authors-title">Авторы</h1>
+            <h1 className="authors-title" style={{fontFamily: "Impact, Regular"}}>Авторы</h1>
 
             {popular.length > 0 && (
                 <section className="popular-authors">
@@ -44,7 +44,6 @@ function AuthorsPage() {
             <section>
                 {others.length > 0 && (
                     <>
-                        <div className="popular-authors-title" style={{ color: 'var(--burgundy)' }}>Остальные авторы:</div>
                         <div className="authors-list">
                             {others.map(a => (
                                 <div className="author-card" key={a.id}>

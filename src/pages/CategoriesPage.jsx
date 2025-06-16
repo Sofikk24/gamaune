@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:5000"; // Замени на свой
+const API_URL = import.meta.env.VITE_API_URL;
 
 function CategoriesPage() {
     const [categories, setCategories] = useState([]);
@@ -21,16 +21,19 @@ function CategoriesPage() {
         "Резьба по дереву": "Создание художественных изделий и орнаментов из дерева.",
         "Керамика": "Глиняные изделия и художественная роспись по керамике.",
         "Ткачество": "Традиционное и современное ткачество, создание тканей.",
-        "Кузнечное дело": "Кузнечные изделия и художественная обработка металла."
+        "Кузнечное дело": "Кузнечные изделия и художественная обработка металла.",
+        "Текстиль": "Текстильные художественные изделия.",
+        "Картины": "Классическое искусство изображения на холсте"
     };
 
     function handleClick(category) {
-        navigate(`/artifacts?category=${encodeURIComponent(category.name)}`);
+        // Лучше фильтровать по id — фронт и бэк работают стабильно
+        navigate(`/artifacts?category_id=${category.id}`);
     }
 
     return (
         <div className="categories-container">
-            <h1 className="categories-title">Виды творчества</h1>
+            <h1 className="categories-title" style={{fontFamily: "Impact, Regular"}}>Виды творчества</h1>
             <div className="categories-list">
                 {categories.map(cat => (
                     <div
