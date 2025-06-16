@@ -9,9 +9,11 @@ function ArtifactDetailPage() {
     const { artifactId } = useParams();
     const [artifact, setArtifact] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [periods, setPeriods] = useState([]);
 
     useEffect(() => {
         setLoading(true);
+        axios.get(`${API_URL}/periods`).then(res => setPeriods(res.data));
         axios.get(`${API_URL}/artifacts/${artifactId}`)
             .then(res => setArtifact(res.data))
             .finally(() => setLoading(false));
@@ -30,9 +32,9 @@ function ArtifactDetailPage() {
                 style={{maxWidth: "400px", borderRadius: "20px", margin: "1em 0"}}
             />
             <div style={{fontWeight: 700, margin: "1em 0"}}>
+                {artifact.author_full_name && <div>Автор: {artifact.author_full_name}</div>}
                 Материал: {artifact.materials} <br />
-                Техника: {artifact.technique} <br />
-                Период: {artifact.period_id} <br />
+                Период: {periods.find(p => p.id === artifact.period_id)?.name + " Век" || ""} &nbsp;|&nbsp; <br />
             </div>
             <div style={{margin: "1.2em 0", color: "var(--burgundy)", maxWidth: "60vw", marginLeft: "auto", marginRight: "auto"}}>
                 <b>История предмета:</b><br />

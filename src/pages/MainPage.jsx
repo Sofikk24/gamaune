@@ -114,6 +114,7 @@ function MainPage() {
                     <strong style={{ color: "var(--burgundy)", fontSize: "1.15em", fontFamily: "Impact, Regular" }} >Последние новости:</strong>
                     <ul className="news-list">
                         <li>Проект стартовал! Добавляйте ваши предметы.</li>
+                        <Link to="/moderation">Модерация</Link>
                     </ul>
                 </div>
             </section>

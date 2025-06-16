@@ -271,7 +271,7 @@ export default function AddArtifactPage() {
                             />
                         </div>
                         <div className="add-form-row">
-                            <label>Информация об авторе (не публикуется)</label>
+                            <label>Информация об авторе</label>
                             <textarea
                                 name="author_info"
                                 value={form.author_info}

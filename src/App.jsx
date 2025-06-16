@@ -31,7 +31,7 @@ function App() {
                 <Route path="/contacts" element={<ContactsPage />} />
                 <Route path="/artifacts/:artifactId" element={<TheArtifact />} />
                 <Route path="/gamaune/login" element={<LoginPage />} />
-                <Route path="/gamaune/moderation" element={<ModerationPage />} />
+                <Route path="/moderation" element={<ModerationPage />} />
             </Routes>
         </Router>
     );

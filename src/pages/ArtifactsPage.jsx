@@ -91,10 +91,11 @@ function ArtifactsPage() {
                 {artifacts.length === 0 && <div>Экспонаты не найдены.</div>}
                 {artifacts.map(a => (
                     <Link to={`/artifacts/${a.id}`} key={a.id} style={{textDecoration: "none"}}>
-                        <div className="artifact-card" key={a.id}>
+                        <div className="artifact-card" key={a.id}  style={{height:"60vh"}}>
                             <img
                                 src={API_URL + a.photo_url}
                                 alt={a.name}
+                                style={{height: "30vh"}}
                                 onError={e => {
                                     e.target.onerror = null;
                                     e.target.src = placeholderImg;
@@ -102,11 +103,12 @@ function ArtifactsPage() {
                             />
                             <div className="artifact-title">{a.name}</div>
                             <div className="artifact-meta">
-                                {periods.find(p => p.id === a.period_id)?.name || ""} &nbsp;|&nbsp;
+                                {a.author_full_name && <div>Автор: {a.author_full_name}</div>}
+                                {periods.find(p => p.id === a.period_id)?.name + " Век" || ""} &nbsp;|&nbsp;
                                 {a.materials}
                             </div>
                             <div className="artifact-meta">
-                                {/* Тут можно вывести имя автора, если оно приходит */}
+
                             </div>
                             <div className="artifact-story">
                                 {a.story}

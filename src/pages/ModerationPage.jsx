@@ -58,9 +58,7 @@ function ModerationPage() {
                             {a.materials ? ` | ${a.materials}` : ""}
                         </div>
                         <div className="artifact-story" style={{ minHeight: 46, marginBottom: 8 }}>
-                            {a.story && a.story.length > 130
-                                ? a.story.slice(0, 127) + "…"
-                                : a.story}
+                            {a.story}
                         </div>
                         <div className="moderation-actions" style={{ display: "flex", gap: 12, justifyContent: "center" }}>
                             <button

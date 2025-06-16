@@ -28,6 +28,7 @@ function AuthorsPage() {
                         {popular.map(a => (
                             <div className="author-card" key={a.id}>
                                 <div className="author-name">{a.full_name}</div>
+                                <div className="author-info">{a.birth_date}</div>
                                 <div className="author-info">{a.place_of_residence}</div>
                                 {a.additional_info && (
                                     <div className="author-info">{a.additional_info}</div>
@@ -53,7 +54,7 @@ function AuthorsPage() {
                                         <div className="author-info">{a.additional_info}</div>
                                     )}
                                     <div className="author-count">
-                                        {a.artifact_count} экспонат(ов)
+                                        {a.artifacts_count} экспонат(ов)
                                     </div>
                                 </div>
                             ))}
